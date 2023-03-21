@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.rating .stars {
+    display: inline-block;
+  }
+  
+  .rating input[type="radio"] {
+    display: none;
+  }
+  
+  .rating label.star {
+    float: right;
+    padding: 5px;
+    font-size: 25px;
+    color: #bbb;
+    transition: all .2s ease-in-out;
+  }
+  
+  .rating input[type="radio"]:checked ~ label.star:before {
+    content: '\f005';
+    color: #FD4;
+    transition: all .25s ease-in-out;
+  }
