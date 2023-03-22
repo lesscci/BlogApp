@@ -16,6 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        
         $posts = Post::all();
         //Carga la vista de los posts con todos los posts como variable.
         return view('posts.index', compact('posts'));
@@ -103,10 +104,8 @@ class PostController extends Controller
 {
     $post = Post::findOrFail($id);
     $rating = $request->input('rating');
-    // Aquí es donde guardarías la valoración en la base de datos
     $post->rating = $rating;
     $post->save();
-    // Redirige de vuelta a la página de la publicación para mostrar la valoración actualizada
     return redirect()->route('posts.view', $post->id);
 }
 

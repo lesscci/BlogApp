@@ -68,7 +68,7 @@
                                     </div>
 
                                     <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                                        <button data-modal-toggle="defaultModal" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> Crear </button>
+                                        <button data-modal-toggle="defaultModal" type="submit" class="text-blue-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"> Crear </button>
                                         <button data-modal-toggle="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"> Cerrar </button>
                                     </div>
                                 </div>
@@ -78,17 +78,16 @@
                 </div>
             </div>
 
-
-
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            @if(Auth::user()->role_id == 2)
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                        <th scope="col" class="px-6 py-3">
-                                
+                            <th scope="col" class="px-6 py-3">
+
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                ID
+                                Autor
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Título
@@ -105,10 +104,12 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                      
+                        <h1 class="text-3xl font-semibold m-4 text-gray-700 capitalize lg:text">Todos los posts (Admin)</h1>
                         @foreach ($posts as $post)
 
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
                             <!--Imagen/ID -->
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 @if($post->image_url)
@@ -116,10 +117,10 @@
                                 @else
                                 <span></span>
                                 @endif
-
                             </th>
                             <td class="px-6 py-4">
-                                {{$post->id}}
+
+                                {{$post->user->name}}
                             </td>
                             <!--Título -->
                             <td class="px-6 py-4">
@@ -145,6 +146,80 @@
                             </td>
                         </tr>
                         @endforeach
+                        @endif
+
+                    </tbody>
+                </table>
+
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Título
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Contenido
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Fecha
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Acción
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        <h1 class="text-3xl font-semibold m-4 text-gray-700 capitalize lg:text">Todos mis posts 😍</h1>
+                        @foreach ($posts as $post)
+                        @if (Auth::id() == $post->user_id)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <!--Imagen/ID -->
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                @if($post->image_url)
+                                <img class="max-w-xs h-auto" src="{{ asset('storage/'.$post->image_url) }}">
+                                @else
+                                <span></span>
+                                @endif
+                            </th>
+                            <td class="px-6 py-4">
+
+                                {{$post->id}}
+                            </td>
+                            <!--Título -->
+                            <td class="px-6 py-4">
+                                {{$post->title}}
+                            </td>
+
+                            <!--Contenido -->
+                            <td class="px-6 py-4">
+                                <span style="display: inline-block; width:180px; white-space:nowrap; overflow:hidden !important; text-overflow:ellipsis;">
+                                    {{$post->cont}}</span>
+
+                            </td>
+                            <!--Fecha -->
+                            <td class="px-6 py-4">
+                                {{$post->created_at}}
+                            </td>
+
+                            <!--Acción -->
+                            <td class="px-6 py-4">
+                                <a href="{{ route('posts.edit', $post->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar </a>
+                                <a href="{{ route('posts.delete', $post->id) }}" class="font-medium text-red-600 dark:text-blue-500 hover:underline"> Borrar</a>
+
+                            </td>
+                        </tr>
+                        @endif
+                        @endforeach
+
+
                     </tbody>
                 </table>
             </div>

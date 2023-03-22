@@ -10,8 +10,8 @@ use App\Http\Controllers\AdminController;
 
 //RUTAS PÚBLICAS
 Route::get('/', function () {
-    return view('muro',[
-    'posts' => Post::where('active', true)->get()
+    return view('muro', [
+        'posts' => Post::where('active', true)->get()
     ]);
 });
 
@@ -26,19 +26,30 @@ Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 
 //vista
 Route::get('/posts/{id}', [PostController::class, 'view'])->name('posts.view');
-Route::get('/perfil',[ProfileController::class, 'view'])->name('perfil');
 
+
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
 //Borrar
 Route::get('/posts/delete/{id}', [PostController::class, 'destroy'])->name('posts.delete');
 
 
-Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 //Editar post
 Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
 //Actualizar
 Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+
+
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+
+
+
+Route::get('/perfil', [ProfileController::class, 'view'])->name('perfil');
+
+
 
 //Comenarios
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
@@ -64,4 +75,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
